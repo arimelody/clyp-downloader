@@ -19,11 +19,13 @@ class ClypUpload {
     /**
      * @param {string} name 
      * @param {URL} url 
+     * @param {Date} creation_date 
      */
-    constructor(name, url) {
+    constructor(name, url, creation_date) {
         this.name = name;
         this.url = url;
         this.id = url.pathname.split(".mp3")[0].substring(1);
+        this.creation_date = creation_date;
     }
 }
 
@@ -60,7 +62,11 @@ async function main() {
         }
 
         data.Data.forEach(item => {
-            uploads.push(new ClypUpload(item.Title, new URL(item.Mp3Url)));
+            uploads.push(new ClypUpload(
+                item.Title,
+                new URL(item.Mp3Url),
+                new Date(item.DateCreated),
+            ));
         });
 
         if (data.Paging["Next"] == undefined) {
@@ -71,7 +77,7 @@ async function main() {
     }
 
     const totalCount = uploads.length;
-    console.log(`Metadata downloaded! Found ${totalCount} uploads.`);
+    console.log(`Metadata downloaded! Found ${totalCount} upload${totalCount != 1 ? "s" : ""}.`);
 
     for (let i = 0; i < totalCount; i++) {
         const upload = uploads.pop();
@@ -90,10 +96,11 @@ async function main() {
 
         fs.writeFile(filepath, buffer, err => {
             if (err) throw err;
+            fs.utimesSync(filepath, upload.creation_date, upload.creation_date);
         });
     }
 
-    console.log(`${totalCount} clyps downloaded successfully!`);
+    console.log(`${totalCount} clyp${totalCount != 1 ? "s" : ""} downloaded successfully!`);
 }
 
 main();
