@@ -8,12 +8,12 @@
 const process = require("process");
 const fs = require("fs");
 
-const TOKEN = process.env["CLYP_TOKEN"];
-
-if (!TOKEN) {
-    console.error("No CLYP_TOKEN provided!");
-    process.exit(1);
+if (process.argv.length != 3) {
+    console.log("Usage: node clyp-downloader.cjs <CLYP_TOKEN>");
+    process.exit(0);
 }
+
+const TOKEN = process.argv[2];
 
 class ClypUpload {
     /**

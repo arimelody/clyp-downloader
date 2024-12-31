@@ -4,7 +4,8 @@ It downloads clyps!
 
 ## Usage
 
-- Set `CLYP_TOKEN` to your Clyp `Authorization: Bearer` session token.
-- `node clyp-downloader.cjs`
+- Retrieve your Clyp access token from your browser. This should be under
+  Developer Tools > Storage > Local Storage > `accessToken`.
+- `node clyp-downloader.cjs <accessToken>`
 - ???
 - Profit
