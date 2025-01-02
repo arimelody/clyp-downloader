@@ -5,6 +5,7 @@
  * @author ari melody <ari@arimelody.me>
  */
 
+const fetch = require('node-fetch'); 
 const process = require("process");
 const fs = require("fs");
 
@@ -82,8 +83,8 @@ async function main() {
     for (let i = 0; i < totalCount; i++) {
         const upload = uploads.pop();
 
-        const filepath = `mp3/${upload.name.replace(/[<>:"\/\\|?*]/gi, '_')} (${upload.id}).mp3`;
-        console.log(`Downloading ${upload.id} "${upload.name}" (${i}/${totalCount})...`);
+        const filepath = `mp3/${upload.name.replace(/[<>:"\/\\|?*]/gi, '_')} (${upload.id.replace(/[<>:"\/\\|?*]/gi, '_')}).mp3`;
+        console.log(`Downloading ${upload.id.replace(/[<>:"\/\\|?*]/gi, '_')} "${upload.name.replace(/[<>:"\/\\|?*]/gi, '_')}" (${i}/${totalCount})...`);
 
         const res = await fetch(upload.url)
         const blob = await res.blob()
